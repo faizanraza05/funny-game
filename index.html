@@ -14,17 +14,21 @@
             height: 100vh;
             background-color: #fce4ec;
             font-family: 'Arial', sans-serif;
+            overflow: hidden; /* Important for mobile to prevent scrolling */
         }
 
         .container {
             position: relative;
             text-align: center;
             background: white;
-            padding: 40px;
+            padding: 30px 20px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            
+            /* Responsive Width for Mobile */
+            width: 90%; 
             max-width: 400px;
-            width: 100%;
+            
             min-height: 400px;
             display: flex;
             flex-direction: column;
@@ -47,7 +51,7 @@
 
         .btn-group {
             width: 100%;
-            height: 50px;
+            height: 60px; /* Increased height for mobile touch targets */
             display: flex;
             justify-content: center;
             gap: 20px;
@@ -62,6 +66,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 10;
+            /* Removes the blue highlight when tapping on phones */
+            -webkit-tap-highlight-color: transparent;
         }
 
         .yes-btn {
@@ -81,14 +87,23 @@
             color: #333;
         }
 
-        /* ---- NEW STYLE FOR THE CREDIT ---- */
         .footer-credit {
             position: fixed;
             bottom: 15px;
             right: 20px;
             color: #d81b60;
             font-size: 14px;
-            opacity: 0.7; /* Makes it slightly subtle */
+            opacity: 0.7;
+        }
+
+        /* --- Mobile Specific Adjustments --- */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 20px;
+            }
+            .gif-container img {
+                width: 120px;
+            }
         }
     </style>
 </head>
@@ -103,7 +118,7 @@
         
         <div class="btn-group">
             <button class="yes-btn" onclick="handleYesClick()">Yes</button>
-            <button class="no-btn" id="noBtn" onmouseover="moveButton()">No</button>
+            <button class="no-btn" id="noBtn" onmouseover="moveButton()" ontouchstart="moveButton()">No</button>
         </div>
     </div>
 
@@ -121,8 +136,10 @@
             const btnWidth = noBtn.offsetWidth;
             const btnHeight = noBtn.offsetHeight;
 
+            // Added buffer to ensure button stays well inside the card
             const maxX = containerWidth - btnWidth - 20;
             const maxY = containerHeight - btnHeight - 20;
+            
             const randomX = Math.floor(Math.random() * maxX);
             const randomY = Math.floor(Math.random() * maxY);
 
